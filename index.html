@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="heading">
+      <h1>Calculator</h1>
+    </div>
+    <div class="box">
+      <div class="display" id="ans">0</div>
+
+      <div class="buttons">
+        <button onclick="previous()">🕙</button>
+        <button onclick="clearDisplay()" class="clear">A/C</button>
+        <button onclick="operator('/')" class="high">/</button>
+        <button onclick="operator('*')" class="high">*</button>
+        <button onclick="operator('+')" class="high">+</button>
+        <button onclick="operator('-')" class="high">-</button>
+        <button onclick="num(1)" class="num">1</button>
+        <button onclick="num(2)" class="num">2</button>
+        <button onclick="num(3)" class="num">3</button>
+        <button onclick="num(4)" class="num">4</button>
+        <button onclick="num(5)" class="num">5</button>
+        <button onclick="num(6)" class="num">6</button>
+        <button onclick="num(7)" class="num">7</button>
+        <button onclick="num(8)" class="num">8</button>
+        <button onclick="num(9)" class="num">9</button>
+        <button onclick="num(0)" class="num">0</button>
+        <button onclick="num('00')" class="num">00</button>
+        <button class="equal" onclick="equal()">=</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    var answer = document.getElementById("ans");
+    var his = "";
+    var pre = [];
+
+    function joint(a) {
+      var text = answer.textContent;
+      if (text === "0") {
+        return (answer.textContent = a);
+      }
+      answer.textContent = text + a;
+    }
+
+    function operator(a) {
+      joint(a);
+    }
+
+    function num(a) {
+      joint(a);
+    }
+
+    function equal() {
+      his = answer.textContent;
+      res(his);
+    }
+    function res(a) {
+      answer.textContent = eval(answer.textContent);
+      var value = a + " = " + eval(answer.textContent);
+      localStorage.setItem("key", value);
+    }
+
+    function previous() {
+      pre.push(localStorage.getItem("key"));
+      console.log(pre);
+    }
+
+    function clearDisplay() {
+      answer.textContent = "0";
+    }
+  </script>
+</html>
