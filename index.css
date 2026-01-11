@@ -10,6 +10,7 @@ body {
   display: grid;
   place-items: center;
   background: rgb(213, 224, 240);
+  padding: 16px;
 }
 
 .heading {
@@ -20,44 +21,49 @@ body {
   font-weight: bold;
 }
 
+/* 📦 Calculator container */
 .box {
-  width: 300px;
-  padding: 8px;
+  width: min(90vw, 320px); /* RESPONSIVE */
+  padding: 10px;
   background-color: rgb(167, 190, 231);
   border: 2px solid black;
-  border-radius: 10px;
+  border-radius: 12px;
 
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
+/* 🖥 Display */
 .display {
-  height: 60px;
-  padding: 8px;
+  min-height: 60px;
+  padding: 10px;
   background: #fff;
   border: 1px solid black;
   border-radius: 6px;
 
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 5vw, 2rem); /* RESPONSIVE TEXT */
   font-weight: 700;
 
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  overflow-x: auto;
 }
 
+/* 🔢 Buttons grid */
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
+/* 🔘 Buttons */
 button {
-  height: 45px;
-  font-size: 1.1rem;
+  aspect-ratio: 1 / 1; /* PERFECT SQUARE BUTTONS */
+  font-size: clamp(1rem, 4vw, 1.2rem);
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: transform 0.1s ease, opacity 0.1s ease;
 }
@@ -67,6 +73,7 @@ button:active {
   opacity: 0.8;
 }
 
+/* 🎨 Button types */
 .num {
   background-color: rgb(185, 181, 185);
 }
@@ -79,9 +86,25 @@ button:active {
   background-color: rgba(38, 38, 250, 0.9);
   color: white;
   grid-column: span 2;
+  aspect-ratio: auto;
 }
 
 .clear {
   background-color: rgb(46, 122, 122);
   color: white;
+}
+
+/* 📱 SMALL DEVICES (phones) */
+@media (max-width: 400px) {
+  .heading {
+    font-size: 1.2rem;
+  }
+
+  .box {
+    padding: 8px;
+  }
+
+  .buttons {
+    gap: 6px;
+  }
 }
