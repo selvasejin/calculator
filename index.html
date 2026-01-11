@@ -35,44 +35,64 @@
       </div>
     </div>
   </body>
-  <script>
-    var answer = document.getElementById("ans");
-    var his = "";
-    var pre = [];
+<script>
+  const answer = document.getElementById("ans");
 
-    function joint(a) {
-      var text = answer.textContent;
-      if (text === "0") {
-        return (answer.textContent = a);
-      }
-      answer.textContent = text + a;
-    }
+  let expression = "";
+  let history = [];
 
-    function operator(a) {
-      joint(a);
-    }
+  function updateDisplay(value) {
+    answer.textContent = value || "0";
+  }
 
-    function num(a) {
-      joint(a);
-    }
+  function num(n) {
+    if (expression === "0") expression = "";
+    expression += n;
+    updateDisplay(expression);
+  }
 
-    function equal() {
-      his = answer.textContent;
-      res(his);
-    }
-    function res(a) {
-      answer.textContent = eval(answer.textContent);
-      var value = a + " = " + eval(answer.textContent);
-      localStorage.setItem("key", value);
+  function operator(op) {
+    if (expression === "") return;
+
+    const lastChar = expression.slice(-1);
+    if ("+-*/".includes(lastChar)) {
+      expression = expression.slice(0, -1);
     }
 
-    function previous() {
-      pre.push(localStorage.getItem("key"));
-      console.log(pre);
-    }
+    expression += op;
+    updateDisplay(expression);
+  }
 
-    function clearDisplay() {
-      answer.textContent = "0";
+  function clearDisplay() {
+    expression = "";
+    updateDisplay("0");
+  }
+
+  function equal() {
+    try {
+      const result = calculate(expression);
+      history.push(`${expression} = ${result}`);
+      localStorage.setItem("history", JSON.stringify(history));
+      expression = result.toString();
+      updateDisplay(expression);
+    } catch {
+      updateDisplay("Error");
+      expression = "";
     }
-  </script>
+  }
+
+  function previous() {
+    const stored = JSON.parse(localStorage.getItem("history")) || [];
+    if (stored.length === 0) {
+      alert("No history");
+      return;
+    }
+    alert(stored[stored.length - 1]);
+  }
+
+  function calculate(exp) {
+    return Function(`"use strict"; return (${exp})`)();
+  }
+</script>
+
 </html>
